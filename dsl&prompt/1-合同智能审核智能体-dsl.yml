@@ -1,0 +1,372 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: 合同智能审核智能体
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/deepseek:0.0.5@fd6efd37c2a931911de8ab9ca3ba2da303bef146d45ee87ad896b04b36d09403
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: bowenliang123/md_exporter:1.6.0@5f1cff236febc9b8a6fe815242eed7becbe398fac867a0c488ffb8a77edd0c7b
+kind: app
+version: 0.2.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: document-extractor
+      id: 1749295083712-source-1749305550035-target
+      source: '1749295083712'
+      sourceHandle: source
+      target: '1749305550035'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: document-extractor
+        targetType: llm
+      id: 1749305550035-source-llm-target
+      source: '1749305550035'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: tool
+      id: llm-source-1749308309996-target
+      source: llm
+      sourceHandle: source
+      target: '1749308309996'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: tool
+        targetType: answer
+      id: 1749308309996-source-answer-target
+      source: '1749308309996'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: 合同类型
+          max_length: 48
+          options:
+          - 房屋购买类
+          - 软件开发类
+          - 护工雇佣类
+          required: true
+          type: select
+          variable: contract_type
+        - label: 背景信息
+          max_length: 255
+          options: []
+          required: false
+          type: text-input
+          variable: background_info
+        - allowed_file_extensions: []
+          allowed_file_types:
+          - document
+          allowed_file_upload_methods:
+          - local_file
+          label: 待审核合同
+          max_length: 48
+          options: []
+          required: true
+          type: file
+          variable: contract
+        - label: 特别关注点
+          max_length: 48
+          options: []
+          required: false
+          type: text-input
+          variable: special_focus
+      height: 167
+      id: '1749295083712'
+      position:
+        x: 30
+        y: 283.5
+      positionAbsolute:
+        x: 30
+        y: 283.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        memory:
+          query_prompt_template: '{{#sys.query#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: true
+            size: 30
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-chat
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - id: ac4e18fd-565d-4fda-a5bf-77f141d35a61
+          role: system
+          text: "Role: 多领域合同风险智能顾问  \nauthor: 辉哥  \n\nBackground: 合同审查需基于专业领域知识，不同类型合同存在差异化风险特征和法律要求。\
+            \  \n\nProfile:  \n- 动态路由型合同审查引擎  \n- 行业风险特征库构建者  \n- 法律/风控/心理三维分析专家 \
+            \ \n\nSkills:  \n1. 合同类型识别与专业能力适配  \n2. 类型化法律条款深度解析  \n3. 行业专属风险矩阵建模 \
+            \ \n4. 心理动机图谱分析  \n\nGoals:  \n1. 基于合同类型加载专业审查模型  \n2. 识别行业TOP3核心风险  \n\
+            3. 输出可落地的防范方案  \n\nWorkflow:  \n0. 【合同类型网关】  \n   - 验证用户指定类型（必选参数）  \n\
+            \   - 加载对应领域资源包：  \n     • 法律知识库 • 风险模型 • 历史判例库  \n\n1. 法律分析（动态适配）  \n\
+            \   - 基础审查：  \n     ✓ 条款合法性 ✓ 权责对等性 ✓ 违约条款  \n   - 类型化扩展：  \n     ▸ 软件开发类：源代码归属/技术交付标准\
+            \  \n     ▸ 房屋购买类：产权链完整性/税费机制  \n     ▸ 护工雇佣类：服务标准/责任豁免条款  \n\n2. 风险管理\
+            \  \n   - 行业风险雷达扫描（加载特征库）  \n   - 三维评估：财务风险/履约风险/操作风险  \n\n3. 心理分析  \n\
+            \   - 权力关系建模  \n   - 欺诈倾向指数计算  \n\nOutputFormat:  \n1. 标题：【{{#1749295083712.contract_type#}}】专项风险报告\
+            \  \n2. 核心风险摘要（按紧急度排序）  \n3. 分维度分析：  \n   - \U0001F4DC 法律风险清单（带条款定位） \
+            \ \n   - ⚖️ 风险矩阵（可能性/影响度）  \n   - \U0001F9E0 心理预警（红/黄/蓝等级）  \n4. 解决方案包：\
+            \  \n   - ✍️ 条款修改建议（具体替换文案）  \n   - \U0001F6E1️ 风险控制路线图  \n\nConstraints:\
+            \  \n1. 严格绑定{{#1749295083712.contract_type#}}参数分析  \n2. 所有建议标注法律依据  \n\
+            3. 首次回复强制输出Initialization  \n\nInitialization:  \n\"您好！我是辉哥的智能合同顾问，请按格式提供：\
+            \  \n1️⃣【合同类型】*必选*  \n   ▸ 软件开发 ▸ 房屋购买 ▸ 护工雇佣 ▸ 房屋装修  \n2️⃣【合同文本】上传完整文件\
+            \  \n3️⃣【背景信息】交易金额/周期/特殊要求  \n4️⃣【特别关注】需重点审查条款（可选）  \n\n系统即将激活{{#1749295083712.contract_type#}}专属审查引擎...\""
+        - id: d89a3527-a4fa-4295-b3c7-6ead8c1613c4
+          role: user
+          text: "请基于以下参数进行合同审查：  \n[ 合同类型 ]  \n{{#1749295083712.contract_type#}}\n\
+            \n[ 合同文本 ]  \n{{#1749305550035.text#}}\n\n[ 背景信息 ]  \n{{#1749295083712.background_info#}}\n\
+            \n[ 特别关注 ]  \n{{#1749295083712.special_focus#}}\n\n执行指令：  \nIF {{#1749295083712.contract_type#}}==\"\
+            软件开发类\" THEN:  \n  • 激活技术合同审查模型  \n  • 聚焦：知识产权条款/交付标准/数据安全  \nELSE IF\
+            \ {{#1749295083712.contract_type#}}==\"房屋购买类\" THEN:  \n  • 调用不动产交易模块\
+            \  \n  • 扫描：产权瑕疵/付款机制/质量担保  \nELSE:  \n  • 启动通用风险扫描框架  "
+        selected: false
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: llm
+      position:
+        x: 636
+        y: 283.5
+      positionAbsolute:
+        x: 636
+        y: 283.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '实时审核结果：
+
+
+          {{#llm.text#}}
+
+
+          <br>
+
+          审核结果PDF文件：
+
+
+          {{#1749308309996.files#}}'
+        desc: ''
+        selected: false
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 139
+      id: answer
+      position:
+        x: 1242
+        y: 283.5
+      positionAbsolute:
+        x: 1242
+        y: 283.5
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        is_array_file: false
+        selected: false
+        title: 文档提取器
+        type: document-extractor
+        variable_selector:
+        - '1749295083712'
+        - contract
+      height: 91
+      id: '1749305550035'
+      position:
+        x: 333
+        y: 283.5
+      positionAbsolute:
+        x: 333
+        y: 283.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        is_team_authorization: true
+        output_schema: null
+        paramSchemas:
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Markdown text
+            ja_JP: Markdown text
+            pt_BR: Markdown text
+            zh_Hans: Markdown格式文本
+          label:
+            en_US: Markdown text
+            ja_JP: Markdown text
+            pt_BR: Markdown text
+            zh_Hans: Markdown格式文本
+          llm_description: ''
+          max: null
+          min: null
+          name: md_text
+          options: []
+          placeholder: null
+          precision: null
+          required: true
+          scope: null
+          template: null
+          type: string
+        - auto_generate: null
+          default: null
+          form: llm
+          human_description:
+            en_US: Filename of the output file
+            ja_JP: Filename of the output file
+            pt_BR: Filename of the output file
+            zh_Hans: 输出文件名
+          label:
+            en_US: Filename of the output file
+            ja_JP: Filename of the output file
+            pt_BR: Filename of the output file
+            zh_Hans: 输出文件名
+          llm_description: ''
+          max: null
+          min: null
+          name: output_filename
+          options: []
+          placeholder: null
+          precision: null
+          required: false
+          scope: null
+          template: null
+          type: string
+        params:
+          md_text: ''
+          output_filename: ''
+        provider_id: bowenliang123/md_exporter/md_exporter
+        provider_name: bowenliang123/md_exporter/md_exporter
+        provider_type: builtin
+        selected: false
+        title: Markdown 转 DOCX 文件
+        tool_configurations: {}
+        tool_description: 将 Markdown 转换为 DOCX 文件的工具
+        tool_label: Markdown 转 DOCX 文件
+        tool_name: md_to_docx
+        tool_parameters:
+          md_text:
+            type: mixed
+            value: '{{#llm.text#}}'
+          output_filename:
+            type: mixed
+            value: 合同审核结果
+        type: tool
+      height: 53
+      id: '1749308309996'
+      position:
+        x: 939
+        y: 283.5
+      positionAbsolute:
+        x: 939
+        y: 283.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    viewport:
+      x: -25.352609463771273
+      y: -147.7192329867945
+      zoom: 1
