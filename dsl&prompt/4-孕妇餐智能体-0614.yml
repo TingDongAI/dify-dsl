@@ -1,0 +1,754 @@
+app:
+  description: 为孕期母亲不同阶段提供营养餐推荐
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: 孕妇餐智能体
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai_api_compatible:0.0.16@77274df8fe2632cac66bfd153fcc75aa5e96abbe92b5c611b8984ad9f4cd4457
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/deepseek:0.0.5@fd6efd37c2a931911de8ab9ca3ba2da303bef146d45ee87ad896b04b36d09403
+kind: app
+version: 0.2.0
+workflow:
+  conversation_variables:
+  - description: ''
+    id: 3fac4b46-1dbe-4c37-8870-1433c5ad3a9c
+    name: yunzaoqi
+    selector:
+    - conversation
+    - yunzaoqi
+    value: []
+    value_type: array[object]
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        image_file_size_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1749567279678-source-llm-target
+      source: '1749567279678'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: if-else
+      id: 1749566397952-source-1749636450255-target
+      source: '1749566397952'
+      sourceHandle: source
+      target: '1749636450255'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: knowledge-retrieval
+      id: 1749636450255-true-1749567279678-target
+      source: '1749636450255'
+      sourceHandle: 'true'
+      target: '1749567279678'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: knowledge-retrieval
+      id: 1749636450255-af2cc6f1-c05f-4e39-ab9b-b8c3de2660b8-17496365950270-target
+      source: '1749636450255'
+      sourceHandle: af2cc6f1-c05f-4e39-ab9b-b8c3de2660b8
+      target: '17496365950270'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: if-else
+        targetType: knowledge-retrieval
+      id: 1749636450255-false-17496366012960-target
+      source: '1749636450255'
+      sourceHandle: 'false'
+      target: '17496366012960'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 17496365950270-source-17496366368830-target
+      source: '17496365950270'
+      sourceHandle: source
+      target: '17496366368830'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 17496366012960-source-17496366406370-target
+      source: '17496366012960'
+      sourceHandle: source
+      target: '17496366406370'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 17496366368830-source-1749636649595-target
+      source: '17496366368830'
+      sourceHandle: source
+      target: '1749636649595'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 17496366406370-source-1749636652060-target
+      source: '17496366406370'
+      sourceHandle: source
+      target: '1749636652060'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: knowledge-retrieval
+      id: llm-source-1749907329513-target
+      source: llm
+      sourceHandle: source
+      target: '1749907329513'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: 1749907622169-source-answer-target
+      source: '1749907622169'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: assigner
+      id: 1749907329513-source-1749908098764-target
+      source: '1749907329513'
+      sourceHandle: source
+      target: '1749908098764'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: assigner
+        targetType: llm
+      id: 1749908098764-source-1749907622169-target
+      source: '1749908098764'
+      sourceHandle: source
+      target: '1749907622169'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: 用户当前孕期阶段
+          max_length: 48
+          options:
+          - 孕早期
+          - 孕中期
+          - 孕晚期
+          required: true
+          type: select
+          variable: pregnancy_stage
+        - label: 用户过敏食物清单
+          max_length: 255
+          options: []
+          required: true
+          type: text-input
+          variable: allergens
+        - label: 用户不喜欢的食物清单
+          max_length: 255
+          options: []
+          required: true
+          type: text-input
+          variable: disliked_foods
+      height: 141
+      id: '1749566397952'
+      position:
+        x: 30
+        y: 286.5
+      positionAbsolute:
+        x: 30
+        y: 286.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1749567279678'
+          - result
+        desc: ''
+        memory:
+          query_prompt_template: '{{#sys.query#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params: {}
+          mode: chat
+          name: deepseek-chat
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - id: 8a3f5d7c-3893-4f52-af3f-328148404c96
+          role: system
+          text: '你是营养专家及妇产科专家
+
+            当你得到孕妇的当前阶段并获得当前阶段所需要营养价值，你需要根据孕妇当前所需营养，生成一端查询食材知识库的文本。
+
+            生成要求：
+
+            文本中要包括所需要营养的参数，保证能到知识库查到能提供该营养物质的食材。
+
+            以下是当前孕妇所处的阶段及所需营养的信息：
+
+            {{#context#}}
+
+            '
+        selected: false
+        structured_output_enabled: false
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: llm
+      position:
+        x: 939
+        y: 568
+      positionAbsolute:
+        x: 939
+        y: 568
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '{{#1749907622169.text#}}'
+        desc: ''
+        selected: false
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 104
+      id: answer
+      position:
+        x: 2151
+        y: 568
+      positionAbsolute:
+        x: 2151
+        y: 568
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        dataset_ids:
+        - XIp5JiAJH/LMvhLOZ6jQYimHtRbQoz0lVCi56Z2g21+cFlOAPDcIaq5QkaV8TtU/
+        desc: ''
+        metadata_filtering_conditions:
+          conditions:
+          - comparison_operator: is
+            id: bb824fd1-a7ba-4932-8bf7-89e49038aeb9
+            name: pregnancy_stage
+            value: '{{#1749566397952.pregnancy_stage#}}'
+          logical_operator: and
+        metadata_filtering_mode: manual
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: reranking_model
+          reranking_model:
+            model: bge-reranker-v2-m3
+            provider: langgenius/openai_api_compatible/openai_api_compatible
+          top_k: 4
+        query_variable_selector:
+        - '1749566397952'
+        - pregnancy_stage
+        retrieval_mode: multiple
+        selected: false
+        title: 孕早期营养需求知识库
+        type: knowledge-retrieval
+      height: 91
+      id: '1749567279678'
+      position:
+        x: 636
+        y: 568
+      positionAbsolute:
+        x: 636
+        y: 568
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: is
+            id: 0426d7ff-f506-48fb-a448-a3e5b547e119
+            value: 孕早期
+            varType: string
+            variable_selector:
+            - '1749566397952'
+            - pregnancy_stage
+          id: 'true'
+          logical_operator: or
+        - case_id: af2cc6f1-c05f-4e39-ab9b-b8c3de2660b8
+          conditions:
+          - comparison_operator: contains
+            id: 655c091e-3f36-4b1a-8115-e8c915c4bee5
+            value: 孕中期
+            varType: string
+            variable_selector:
+            - '1749566397952'
+            - pregnancy_stage
+          id: af2cc6f1-c05f-4e39-ab9b-b8c3de2660b8
+          logical_operator: and
+        desc: ''
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 173
+      id: '1749636450255'
+      position:
+        x: 333
+        y: 286.5
+      positionAbsolute:
+        x: 333
+        y: 286.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        dataset_ids:
+        - XIp5JiAJH/LMvhLOZ6jQYimHtRbQoz0lVCi56Z2g21+cFlOAPDcIaq5QkaV8TtU/
+        desc: ''
+        metadata_filtering_conditions:
+          conditions:
+          - comparison_operator: is
+            id: bb824fd1-a7ba-4932-8bf7-89e49038aeb9
+            name: pregnancy_stage
+            value: '{{#1749566397952.pregnancy_stage#}}'
+          logical_operator: and
+        metadata_filtering_mode: manual
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: reranking_model
+          reranking_model:
+            model: bge-reranker-v2-m3
+            provider: langgenius/openai_api_compatible/openai_api_compatible
+          top_k: 4
+        query_variable_selector:
+        - '1749566397952'
+        - pregnancy_stage
+        retrieval_mode: multiple
+        selected: false
+        title: 孕中期营养需求知识库
+        type: knowledge-retrieval
+      height: 91
+      id: '17496365950270'
+      position:
+        x: 636
+        y: 286.5
+      positionAbsolute:
+        x: 636
+        y: 286.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        dataset_ids:
+        - XIp5JiAJH/LMvhLOZ6jQYimHtRbQoz0lVCi56Z2g21+cFlOAPDcIaq5QkaV8TtU/
+        desc: ''
+        metadata_filtering_conditions:
+          conditions:
+          - comparison_operator: is
+            id: bb824fd1-a7ba-4932-8bf7-89e49038aeb9
+            name: pregnancy_stage
+            value: '{{#1749566397952.pregnancy_stage#}}'
+          logical_operator: and
+        metadata_filtering_mode: manual
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: reranking_model
+          reranking_model:
+            model: bge-reranker-v2-m3
+            provider: langgenius/openai_api_compatible/openai_api_compatible
+          top_k: 4
+        query_variable_selector:
+        - '1749566397952'
+        - pregnancy_stage
+        retrieval_mode: multiple
+        selected: false
+        title: 孕晚期营养需求知识库
+        type: knowledge-retrieval
+      height: 91
+      id: '17496366012960'
+      position:
+        x: 636
+        y: 430.5
+      positionAbsolute:
+        x: 636
+        y: 430.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '17496365950270'
+          - result
+        desc: ''
+        memory:
+          query_prompt_template: '{{#sys.query#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params: {}
+          mode: chat
+          name: DeepSeek-R1-Distill-Qwen-32B-GGUF
+          provider: langgenius/openai_api_compatible/openai_api_compatible
+        prompt_template:
+        - id: 8a3f5d7c-3893-4f52-af3f-328148404c96
+          role: system
+          text: '你是营养专家及妇产科专家根据知识检索输出孕期阶段，推荐该时期的孕妇营养餐
+
+            先总结孕妇当前阶段营养需求：
+
+            {{#context#}}
+
+            然后输出你推荐的当天营养餐。'
+        selected: false
+        title: LLM (1)
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '17496366368830'
+      position:
+        x: 939
+        y: 286.5
+      positionAbsolute:
+        x: 939
+        y: 286.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '17496366012960'
+          - result
+        desc: ''
+        memory:
+          query_prompt_template: '{{#sys.query#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params: {}
+          mode: chat
+          name: DeepSeek-R1-Distill-Qwen-32B-GGUF
+          provider: langgenius/openai_api_compatible/openai_api_compatible
+        prompt_template:
+        - id: 8a3f5d7c-3893-4f52-af3f-328148404c96
+          role: system
+          text: '你是营养专家及妇产科专家根据知识检索输出孕期阶段，推荐该时期的孕妇营养餐
+
+            先总结孕妇当前阶段营养需求：
+
+            {{#context#}}
+
+            然后输出你推荐的当天营养餐。'
+        selected: false
+        title: LLM (2)
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '17496366406370'
+      position:
+        x: 939
+        y: 430.5
+      positionAbsolute:
+        x: 939
+        y: 430.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '{{#17496366368830.text#}}'
+        desc: ''
+        selected: false
+        title: 直接回复 2
+        type: answer
+        variables: []
+      height: 104
+      id: '1749636649595'
+      position:
+        x: 1242
+        y: 286.5
+      positionAbsolute:
+        x: 1242
+        y: 286.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '{{#17496366406370.text#}}'
+        desc: ''
+        selected: false
+        title: 直接回复 3
+        type: answer
+        variables: []
+      height: 104
+      id: '1749636652060'
+      position:
+        x: 1242
+        y: 430.5
+      positionAbsolute:
+        x: 1242
+        y: 430.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        dataset_ids:
+        - iRHyUYQooLNmoZcn1Mk06vMnrFue7I6nt5DhaEF24rMTFDVkwhazUfOMXZVwS0nq
+        desc: ''
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: reranking_model
+          reranking_model:
+            model: bge-reranker-v2-m3
+            provider: langgenius/openai_api_compatible/openai_api_compatible
+          top_k: 4
+        query_variable_selector:
+        - llm
+        - text
+        retrieval_mode: multiple
+        selected: false
+        title: 食材知识库
+        type: knowledge-retrieval
+      height: 91
+      id: '1749907329513'
+      position:
+        x: 1242
+        y: 574.5
+      positionAbsolute:
+        x: 1242
+        y: 574.5
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - conversation
+          - yunzaoqi
+        desc: ''
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: deepseek-chat
+          provider: langgenius/deepseek/deepseek
+        prompt_template:
+        - id: 50d01676-67e3-4447-ab48-4178da1de09c
+          role: system
+          text: '# 你是营养专家及妇产科专家
+
+            ## 你要根据孕妇所处阶段及该阶段营养需求，再结合能提供这些营养需求的食材生成营养早餐的推荐信息。
+
+
+            ## 孕妇当前阶段及营养需求以及提供营养需求的食材信息如下：
+
+            {{#context#}}
+
+
+            '
+        selected: false
+        title: LLM 4
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 89
+      id: '1749907622169'
+      position:
+        x: 1848
+        y: 568
+      positionAbsolute:
+        x: 1848
+        y: 568
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        desc: ''
+        items:
+        - input_type: variable
+          operation: extend
+          value:
+          - '1749567279678'
+          - result
+          variable_selector:
+          - conversation
+          - yunzaoqi
+          write_mode: over-write
+        - input_type: variable
+          operation: extend
+          value:
+          - '1749907329513'
+          - result
+          variable_selector:
+          - conversation
+          - yunzaoqi
+          write_mode: over-write
+        selected: false
+        title: 变量赋值
+        type: assigner
+        version: '2'
+      height: 115
+      id: '1749908098764'
+      position:
+        x: 1545
+        y: 568
+      positionAbsolute:
+        x: 1545
+        y: 568
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    viewport:
+      x: 4
+      y: -38
+      zoom: 0.7
