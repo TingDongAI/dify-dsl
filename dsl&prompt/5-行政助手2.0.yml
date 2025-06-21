@@ -1,0 +1,503 @@
+app:
+  description: 只回答行政问题，先做到简单的回答正确。
+  icon: face_with_monocle
+  icon_background: '#FFE4E8'
+  mode: advanced-chat
+  name: 行政助手2.0
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/openai_api_compatible:0.0.16@77274df8fe2632cac66bfd153fcc75aa5e96abbe92b5c611b8984ad9f4cd4457
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/deepseek:0.0.5@fd6efd37c2a931911de8ab9ca3ba2da303bef146d45ee87ad896b04b36d09403
+kind: app
+version: 0.2.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 100
+        image_file_size_limit: 100
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: false
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        sourceType: start
+        targetType: question-classifier
+      id: 1711528708197-1711528709608
+      source: '1711528708197'
+      sourceHandle: source
+      target: '1711528709608'
+      targetHandle: target
+      type: custom
+    - data:
+        sourceType: llm
+        targetType: answer
+      id: 1711528802931-1711528833796
+      source: '1711528802931'
+      sourceHandle: source
+      target: '1711528833796'
+      targetHandle: target
+      type: custom
+    - data:
+        sourceType: llm
+        targetType: answer
+      id: 1711528815414-1711528835179
+      source: '1711528815414'
+      sourceHandle: source
+      target: '1711528835179'
+      targetHandle: target
+      type: custom
+    - data:
+        sourceType: question-classifier
+        targetType: answer
+      id: 1711528709608-1711528775142
+      source: '1711528709608'
+      sourceHandle: '1711528737066'
+      target: '1711528775142'
+      targetHandle: target
+      type: custom
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: knowledge-retrieval
+      id: 1711528709608-1711528736036-1750391712771-target
+      source: '1711528709608'
+      sourceHandle: '1711528736036'
+      target: '1750391712771'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1750391712771-source-1711528802931-target
+      source: '1750391712771'
+      sourceHandle: source
+      target: '1711528802931'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: llm
+      id: 1750392328684-source-1711528815414-target
+      source: '1750392328684'
+      sourceHandle: source
+      target: '1711528815414'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInLoop: false
+        sourceType: question-classifier
+        targetType: knowledge-retrieval
+      id: 1711528709608-1711528736549-1750392328684-target
+      source: '1711528709608'
+      sourceHandle: '1711528736549'
+      target: '1750392328684'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: 开始
+        type: start
+        variables:
+        - label: 员工名字
+          max_length: 48
+          options: []
+          required: true
+          type: text-input
+          variable: name
+      height: 89
+      id: '1711528708197'
+      position:
+        x: 30
+        y: 334.5
+      positionAbsolute:
+        x: 30
+        y: 334.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        classes:
+        - id: '1711528736036'
+          name: 考勤问题
+        - id: '1711528736549'
+          name: 社保问题
+        - id: '1711528737066'
+          name: 其他问题
+        desc: 我们可以设定用户问题的分类条件，然后大语言模型就能根据这些分类描述来决定对话的发展方向。
+        instructions: ''
+        model:
+          completion_params:
+            frequency_penalty: 0
+            max_tokens: 512
+            presence_penalty: 0
+            temperature: 0.7
+            top_p: 1
+          mode: chat
+          name: deepseek-chat
+          provider: langgenius/deepseek/deepseek
+        query_variable_selector:
+        - '1711528708197'
+        - sys.query
+        selected: false
+        title: 问题分类识别
+        topics: []
+        type: question-classifier
+        vision:
+          enabled: false
+      height: 269
+      id: '1711528709608'
+      position:
+        x: 333
+        y: 334.5
+      positionAbsolute:
+        x: 333
+        y: 334.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: 很抱歉，我目前的职责是为您解答行政流程相关问题，若有其他需求，建议联系相应部门哦~
+        desc: ''
+        selected: false
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 133
+      id: '1711528775142'
+      position:
+        x: 636
+        y: 334.5
+      positionAbsolute:
+        x: 636
+        y: 334.5
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1750391712771'
+          - result
+        desc: ''
+        memory:
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 50
+        model:
+          completion_params: {}
+          mode: chat
+          name: deepseek-r1-distill-qwen-32b
+          provider: langgenius/openai_api_compatible/openai_api_compatible
+        prompt_template:
+        - id: 9e4eeb36-21f9-458e-8c03-e57c1f1fa0c5
+          role: system
+          text: '使用以下上下文作为你回答问题的知识库，放在<context></context> XML标签内。
+
+            <context>
+
+            {{#context#}}
+
+            </context>
+
+
+
+            请根据以下步骤生成“行政助手机器人”的回答：
+
+            1. 严格使用提供的知识库内容回答问题，不得编造或添加知识库以外的信息。
+
+            2. 如果知识库中没有与用户问题相关的内容，请礼貌拒绝回答，例如：“抱歉，我无法回答这个问题。”
+
+            3. 回答时需简洁清晰，直接提供知识库中的相关信息，无需额外解释或修饰。
+
+            4. 确保输出中不包含任何XML标签或格式符号（如< >等）。
+
+
+            并根据用户问题的语言进行回答。'
+        retry_config:
+          max_retries: 1
+          retry_enabled: true
+          retry_interval: 1000
+        selected: false
+        structured_output_enabled: false
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      dragging: false
+      height: 118
+      id: '1711528802931'
+      position:
+        x: 939
+        y: 484.5
+      positionAbsolute:
+        x: 939
+        y: 484.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1750392328684'
+          - result
+        desc: ''
+        memory:
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 50
+        model:
+          completion_params: {}
+          mode: chat
+          name: deepseek-r1-distill-qwen-32b
+          provider: langgenius/openai_api_compatible/openai_api_compatible
+        prompt_template:
+        - id: 6d8ba9ca-5810-4158-999f-c580d399624a
+          role: system
+          text: '使用以下上下文作为你回答问题的知识库，放在<context></context> XML标签内。
+
+            <context>
+
+            {{#context#}}
+
+            </context>
+
+
+            请根据以下步骤生成“行政助手机器人”的回答：
+
+            1. 严格使用提供的知识库内容回答问题，不得编造或添加知识库以外的信息。
+
+            2. 如果知识库中没有与用户问题相关的内容，请礼貌拒绝回答，例如：“抱歉，我无法回答这个问题。”
+
+            3. 回答时需简洁清晰，直接提供知识库中的相关信息，无需额外解释或修饰。
+
+            4. 确保输出中不包含任何XML标签或格式符号（如< >等）。
+
+
+            并根据用户问题的语言进行回答。'
+        - id: 9e8d77c5-0ec9-4106-aaa2-cd3464f84295
+          role: user
+          text: ''
+        selected: false
+        title: 'LLM '
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      dragging: false
+      height: 89
+      id: '1711528815414'
+      position:
+        x: 939
+        y: 658
+      positionAbsolute:
+        x: 939
+        y: 658
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '{{#1711528802931.text#}}'
+        desc: ''
+        selected: false
+        title: 直接回复
+        type: answer
+        variables:
+        - value_selector:
+          - '1711528802931'
+          - text
+          variable: text
+      dragging: false
+      height: 104
+      id: '1711528833796'
+      position:
+        x: 1242
+        y: 484.5
+      positionAbsolute:
+        x: 1242
+        y: 484.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '{{#1711528815414.text#}}'
+        desc: ''
+        selected: false
+        title: 直接回复
+        type: answer
+        variables:
+        - value_selector:
+          - '1711528815414'
+          - text
+          variable: text
+      dragging: false
+      height: 104
+      id: '1711528835179'
+      position:
+        x: 1242
+        y: 643.5
+      positionAbsolute:
+        x: 1242
+        y: 643.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        dataset_ids:
+        - MJwomi+zaDCt3E2FNOeXI0KZfCQ311Geb+xUhP8vS59BHnnWKVTN5E3Afhhdkquq
+        desc: 检索考勤相关知识
+        metadata_filtering_conditions:
+          conditions:
+          - comparison_operator: is
+            id: 75134d03-9b66-4f98-b5fa-2a8eb69a9dbc
+            name: type
+            value: 考勤
+          logical_operator: and
+        metadata_filtering_mode: manual
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: reranking_model
+          reranking_model:
+            model: bge-reranker-v2-m3
+            provider: langgenius/openai_api_compatible/openai_api_compatible
+          top_k: 4
+        query_variable_selector:
+        - sys
+        - query
+        retrieval_mode: multiple
+        selected: false
+        title: 考勤知识库检索
+        type: knowledge-retrieval
+      height: 119
+      id: '1750391712771'
+      position:
+        x: 636
+        y: 475.5
+      positionAbsolute:
+        x: 636
+        y: 475.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        dataset_ids:
+        - MJwomi+zaDCt3E2FNOeXI0KZfCQ311Geb+xUhP8vS59BHnnWKVTN5E3Afhhdkquq
+        desc: 检索社保知识库
+        metadata_filtering_conditions:
+          conditions:
+          - comparison_operator: is
+            id: 1a853a7c-bf8f-4580-9c87-22288d6705b7
+            name: type
+            value: 社保
+          logical_operator: and
+        metadata_filtering_mode: manual
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: reranking_model
+          reranking_model:
+            model: bge-reranker-v2-m3
+            provider: langgenius/openai_api_compatible/openai_api_compatible
+          score_threshold: null
+          top_k: 6
+        query_variable_selector:
+        - '1711528708197'
+        - sys.query
+        retrieval_mode: multiple
+        selected: false
+        title: 社保知识检索
+        type: knowledge-retrieval
+      height: 119
+      id: '1750392328684'
+      position:
+        x: 636
+        y: 634.5
+      positionAbsolute:
+        x: 636
+        y: 634.5
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    viewport:
+      x: 0
+      y: 0
+      zoom: 0.7
